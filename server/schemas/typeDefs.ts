@@ -2,7 +2,7 @@ import {gql} from "apollo-server";
 
 export const typeDefs = gql`
     type User{
-        id: Int!
+        _id: ID!
         username: String!, 
         email: String!, 
         chat: [Chat]
