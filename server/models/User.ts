@@ -1,6 +1,14 @@
 import {Schema,model} from 'mongoose'
 import {hash,compare} from 'bcrypt'
 
+const chatSchema = new Schema(
+  {
+    isUser:{type:Boolean, required:true},
+    message:{type:String}
+  }
+)
+
+
 const userSchema = new Schema(
   {
     username: {
@@ -18,6 +26,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    chat:{type:[chatSchema]}
   }
 )
 
