@@ -1,13 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage, LoginPage, MessengerPage, SignupPage } from './pages';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+render(
+  <BrowserRouter>
+    <Routes>
+      <Route path={'/'} element={<HomePage />} />
+      <Route path={'/login'} element={<LoginPage />} />
+      <Route path={'/signup'} element={<SignupPage />} />
+      <Route path={'/messenger'} element={<MessengerPage />} />
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
