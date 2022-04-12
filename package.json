@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "develop": "concurrently \"cd server && npm run devStart\" \"cd client && npm start\"",
-    "install": "cd server && yarn **cd ../client && yarn",
+    "install": "cd server && yarn cd ../client && yarn",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
