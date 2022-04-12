@@ -1,13 +1,43 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage, LoginPage, MessengerPage, SignupPage } from './pages';
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+const httpLink = createHttpLink({
+  uri: '/graphql'
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+
+
+render(
+  <ApolloProvider client={client}>
+    <BrowserRouter>
+      <Routes>
+        <Route path={'/'} element={<HomePage />} />
+        <Route path={'/login'} element={<LoginPage />} />
+        <Route path={'/signup'} element={<SignupPage />} />
+        <Route path={'/messenger'} element={<MessengerPage />} />
+      </Routes>
+    </BrowserRouter>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
