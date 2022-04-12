@@ -1,16 +1,22 @@
+import { UserRequest } from '../types';
+
 const jwt = require('jsonwebtoken');
 
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
+interface signTokenBody {
+    username:string,
+    email:string,
+    _id:string
+}
 
-export const signToken = ({username, email, _id}) => {
+export const signToken = ({username, email, _id}:signTokenBody) => {
     const payload = {username, email, _id};
-
     return jwt.sign({data: payload}, secret, {expiresIn: expiration});
 }
 
-export const authMiddleware = ({req}) => {
+export const authMiddleware = ({req}:{req:UserRequest}) => {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
 
