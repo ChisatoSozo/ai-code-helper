@@ -5,7 +5,7 @@ const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 //Login Mutation
-const login = async (_: any, { email, password }: loginParams) => {
+export const login = async (_: any, { email, password }: loginParams) => {
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -21,23 +21,36 @@ const login = async (_: any, { email, password }: loginParams) => {
 };
 
 //Signup Mutation
-const signUp = async (_: any, { username, email, password }: Iuser) => {
+export const signUp = async (_: any, { username, email, password }: Iuser) => {
   const user = await User.create({ username, email, password });
   const token = signToken(user);
   return { token, user };
 };
 
 //addToChatHistory Mutation
-const addToChatHistory = async (_: any, args: Ichat, context:{user?:Iuser}) => {
+export const addToChatHistory = async (_: any, args: Ichat, context:{user?:Iuser}) => {
   if (!context.user) {
     throw new AuthenticationError('User is not logged in');
   }
 
-  const chatHistory = await User.findOneAndUpdate(
+  const document = await User.findOneAndUpdate(
     { _id: context.user._id },
     { $addToSet: { chat: args } }
   );
+
+  return document.chat;
 };
 
 //deleteChatHistory Mutation
-const deleteChatHistory = async();
+export const deleteChatHistory = async(_: any, __:any, context: {user?:Iuser}) => {
+  if (!context.user){
+    throw new AuthenticationError('User is not logged in');
+  }
+
+  const document = await User.findOneAndUpdate(
+    { _id: context.user._id }, 
+    {user: {chat: [] } } 
+  );
+
+  return document.chat; 
+};

@@ -1,9 +1,15 @@
 import {
-    Login, 
-    SignUp, 
+    login, 
+    signUp,
+    addToChatHistory,
+    deleteChatHistory,  
 } from "../controllers/index";
 
 export const resolvers = {
-    Query: {},
-    Mutation: {}
+    Mutation: {
+        login, 
+        signUp, 
+        addToChatHistory, 
+        deleteChatHistory, 
+    }
 };
