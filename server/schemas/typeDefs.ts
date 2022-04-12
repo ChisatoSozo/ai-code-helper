@@ -14,9 +14,8 @@ export const typeDefs = gql`
     }
 
     type Chat{
-        _id: ID 
-        createdAt: String
-        conversation: String
+        isUser: Boolean!,
+        message: String, 
     }
 
     type Query{
@@ -26,7 +25,7 @@ export const typeDefs = gql`
     type Mutation{
         login(email: String!, password: String!): Auth
         createUser(username: String!, email: String!, password: String!): Auth
-        updateUser(id: Int!, Username: String): Boolean
-        deleteChatHistory(id: Int!): Boolean
+        addToChatHistory(isUser: Boolean, message: string): [Chat]
+        deleteChatHistory(): [Chat]
     }
 `;

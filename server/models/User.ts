@@ -44,4 +44,4 @@ userSchema.methods.isCorrectPassword = async (password:string)=> {
     return compare(password, this.password);
 };
 
-export const User = model('User',userSchema)
+export const User = model('User', userSchema)
