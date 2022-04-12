@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "develop": "concurrently \"cd server && npm run devStart\" \"cd client && npm start\"",
+    "install": "cd server && yarn **cd ../client && yarn",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +20,10 @@
   },
   "homepage": "https://github.com/ChisatoSozo/ai-code-helper#readme",
   "devDependencies": {
-    "concurrently": "^7.1.0"
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "concurrently": "^7.1.0",
+    "eslint": "^8.10.0",
+    "prettier": "^2.5.1"
   }
 }
