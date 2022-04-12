@@ -1,8 +1,9 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, Application, CoverLetter } = require('../models');
-const { signToken } = require('../utils/auth');
+import {
+    Login, 
+    SignUp, 
+} from "../controllers/index";
 
-export const resolvers={
-    Query: {}
+export const resolvers = {
+    Query: {},
     Mutation: {}
-}
+};

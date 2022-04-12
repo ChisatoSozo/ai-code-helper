@@ -8,7 +8,6 @@ const chatSchema = new Schema(
   }
 )
 
-
 const userSchema = new Schema(
   {
     username: {
