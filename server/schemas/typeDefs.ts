@@ -1,13 +1,25 @@
 import {gql} from "apollo-server";
 
 export const typeDefs = gql`
+    type User{
+        username:String, 
+        email:String, 
+        
+    }
+
+    type Auth{
+        token: ID!
+        user: User
+    }
 
     type Query{
-        placeHolder:String
+        users: [User]
+        user(username: String!): User
+        me: User
     }
     
     type Mutation{
-        placeHolder:String
+        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
     }
-
 `;
