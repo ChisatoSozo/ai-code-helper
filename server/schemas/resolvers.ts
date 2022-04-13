@@ -1,6 +1,6 @@
 import {
     login, 
-    signUp,
+    createUser,
     addToChatHistory,
     deleteChatHistory,  
 } from "../controllers";
@@ -8,7 +8,7 @@ import {
 export const resolvers = {
     Mutation: {
         login, 
-        signUp, 
+        createUser, 
         addToChatHistory, 
         deleteChatHistory, 
     }

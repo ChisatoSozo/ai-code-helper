@@ -5,22 +5,31 @@ import { signToken } from '../utils/signToken';
 
 //Login Mutation
 export const login = async (_: any, { email, password }: loginParams) => {
+
   const user = await User.findOne({ email });
+  // console.log(user); 
 
   if (!user) {
     throw new AuthenticationError('No user found with this email address');
   }
+  let correctPw
 
-  const correctPw = await user.isCorrectPassword(password);
+  try {
+    correctPw = await user.isCorrectPassword(password);
+  } catch (e){
+    console.error(e)
+  };
+
   if (!correctPw) {
     throw new AuthenticationError('Incorrect credentials');
   }
   const token = signToken(user);
+
   return { token, user };
 };
 
-//Signup Mutation
-export const signUp = async (_: any, { username, email, password }: Iuser) => {
+//createUser Mutation
+export const createUser = async (_: any, { username, email, password }: Iuser) => {
   const user = await User.create({ username, email, password });
   const token = signToken(user);
   return { token, user };
