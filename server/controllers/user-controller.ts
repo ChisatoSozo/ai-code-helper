@@ -3,6 +3,13 @@ import { AuthenticationError } from 'apollo-server-express';
 import { User } from '../models';
 import { signToken } from '../utils/signToken';
 
+interface addToChatHistoryArgs {
+  messages: {
+    user: Ichat
+    ai: Ichat
+  }
+}
+
 //Login Mutation
 export const login = async (_: any, { email, password }: loginParams) => {
 
@@ -38,17 +45,24 @@ export const createUser = async (_: any, { username, email, password }: Iuser) =
 };
 
 //addToChatHistory Mutation
-export const addToChatHistory = async (_: any, args: Ichat, context:{user?:Iuser}) => {
+export const addToChatHistory = async (_: any, {messages: {user, ai}}:addToChatHistoryArgs, context:{user?:Iuser}) => {
   if (!context.user) {
     throw new AuthenticationError('User is not logged in');
   }
 
-  const document = await User.findOneAndUpdate(
+  const userMessageDocument = await User.findOneAndUpdate(
     { _id: context.user._id },
-    { $addToSet: { chat: args } }
+    { $addToSet: { chat: {user} } },
+    {new: true}, 
   );
 
-  return document.chat;
+  const aiMessageDocument = await User.findOneAndUpdate(
+    { _id: context.user._id },
+    { $addToSet: { chat: { ai } } },
+    {new: true}, 
+  );
+
+  return aiMessageDocument.chat;
 };
 
 //deleteChatHistory Mutation (clear chat history)

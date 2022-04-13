@@ -18,6 +18,11 @@ export const typeDefs = gql`
         message: String, 
     }
 
+    input addChatMessages{
+        user: Chat
+        ai: Chat
+    }
+    
     type Query{
         getUser(username: String!): User,
     }
@@ -25,7 +30,7 @@ export const typeDefs = gql`
     type Mutation{
         login(email: String!, password: String!): Auth
         createUser(username: String!, email: String!, password: String!): Auth
-        addToChatHistory(isUser: Boolean!, message: String): [Chat]
+        addToChatHistory(messages: addChatMessages): [Chat]
         deleteChatHistory: [Chat]
     }
 `;
