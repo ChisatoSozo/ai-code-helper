@@ -1,8 +1,7 @@
 import { loginParams, Ichat, Iuser } from '../types';
-
-const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
-const { signToken } = require('../utils/auth');
+import { AuthenticationError } from 'apollo-server-express';
+import { User } from '../models';
+import { signToken } from '../utils/signToken';
 
 //Login Mutation
 export const login = async (_: any, { email, password }: loginParams) => {

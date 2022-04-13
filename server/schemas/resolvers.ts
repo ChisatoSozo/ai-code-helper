@@ -3,7 +3,7 @@ import {
     signUp,
     addToChatHistory,
     deleteChatHistory,  
-} from "../controllers/index";
+} from "../controllers";
 
 export const resolvers = {
     Mutation: {
