@@ -46,22 +46,24 @@ export const createUser = async (_: any, { username, email, password }: Iuser) =
 
 //addToChatHistory Mutation
 export const addToChatHistory = async (_: any, {messages: {user, ai}}:addToChatHistoryArgs, context:{user?:Iuser}) => {
+
   if (!context.user) {
     throw new AuthenticationError('User is not logged in');
   }
 
   const userMessageDocument = await User.findOneAndUpdate(
     { _id: context.user._id },
-    { $addToSet: { chat: {user} } },
-    {new: true}, 
-  );
+    { $push: { chat: {user} } },
+    {new:true, runValidators:true}
+  )
 
   const aiMessageDocument = await User.findOneAndUpdate(
     { _id: context.user._id },
-    { $addToSet: { chat: { ai } } },
-    {new: true}, 
-  );
+    { $push: { chat: { ai } } },
+    {new:true, runValidators:true}  
+    ).populate({path:'chat'})
 
+console.log(aiMessageDocument)
   return aiMessageDocument.chat;
 };
 

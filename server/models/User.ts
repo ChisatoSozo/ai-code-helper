@@ -4,7 +4,7 @@ import { Iuser } from '../types'
 
 const chatSchema = new Schema(
   {
-    isUser:{type:Boolean, required:true},
+    isUser:{type:Boolean},
     message:{type:String}
   }
 )
@@ -26,7 +26,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    chat:{type:[chatSchema]}
+    chat:[chatSchema]
   }
 )
 

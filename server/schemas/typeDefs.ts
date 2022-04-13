@@ -5,22 +5,27 @@ export const typeDefs = gql`
         _id: ID!
         username: String!, 
         email: String!, 
-        chat: [Chat]
+        chat: [Chat],
     }
 
     type Auth{
-        token: ID!
-        user: User
+        token: ID!,
+        user: User,
     }
 
     type Chat{
         isUser: Boolean!,
         message: String, 
     }
+    
+    input ChatInput{
+        isUser: Boolean!,
+        message: String,
+    }
 
-    input addChatMessages{
-        user: Chat
-        ai: Chat
+    input addChatMessagesInput{
+        user: ChatInput!,
+        ai: ChatInput!,
     }
     
     type Query{
@@ -28,9 +33,9 @@ export const typeDefs = gql`
     }
     
     type Mutation{
-        login(email: String!, password: String!): Auth
-        createUser(username: String!, email: String!, password: String!): Auth
-        addToChatHistory(messages: addChatMessages): [Chat]
+        login(email: String!, password: String!): Auth,
+        createUser(username: String!, email: String!, password: String!): Auth,
+        addToChatHistory(messages: addChatMessagesInput): [Chat],
         deleteChatHistory: [Chat]
     }
 `;
