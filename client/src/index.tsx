@@ -1,6 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, MessengerPage, SignupPage } from './pages';
@@ -37,7 +41,8 @@ render(
         <Route path={'/messenger'} element={<MessengerPage />} />
       </Routes>
     </BrowserRouter>
-  </ApolloProvider>,
+  </ApolloProvider>
+,
   document.getElementById('root')
 );
 
