@@ -1,5 +1,6 @@
 import {Schema,model} from 'mongoose'
 import {hash,compare} from 'bcrypt'
+import { Iuser } from '../types'
 
 const chatSchema = new Schema(
   {
@@ -39,9 +40,9 @@ userSchema.pre('save', async function (next) {
 });
 
 // custom method to compare and validate password for logging in
-userSchema.methods.isCorrectPassword = async (password:string)=> {
-    //@ts-ignore
-    return compare(password, this.password);
+userSchema.methods.isCorrectPassword = async (password:string, {password:hashedPassword}:Iuser)=> {
+  //@ts-ignore
+  return compare(password, hashedPassword);
 };
 
 export const User = model('User', userSchema)

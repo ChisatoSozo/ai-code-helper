@@ -12,10 +12,11 @@ export const login = async (_: any, { email, password }: loginParams) => {
   if (!user) {
     throw new AuthenticationError('No user found with this email address');
   }
+  
   let correctPw
 
   try {
-    correctPw = await user.isCorrectPassword(password);
+    correctPw = await user.isCorrectPassword(password, user);
   } catch (e){
     console.error(e)
   };
@@ -23,6 +24,7 @@ export const login = async (_: any, { email, password }: loginParams) => {
   if (!correctPw) {
     throw new AuthenticationError('Incorrect credentials');
   }
+
   const token = signToken(user);
 
   return { token, user };
@@ -49,7 +51,7 @@ export const addToChatHistory = async (_: any, args: Ichat, context:{user?:Iuser
   return document.chat;
 };
 
-//deleteChatHistory Mutation
+//deleteChatHistory Mutation (clear chat history)
 export const deleteChatHistory = async(_: any, __:any, context: {user?:Iuser}) => {
   if (!context.user){
     throw new AuthenticationError('User is not logged in');
@@ -57,8 +59,13 @@ export const deleteChatHistory = async(_: any, __:any, context: {user?:Iuser}) =
 
   const document = await User.findOneAndUpdate(
     { _id: context.user._id }, 
-    {user: {chat: [] } } 
+    {chat: [] }, 
+    {new: true}, 
   );
-
   return document.chat; 
+};
+
+//getUser only for backend testing 
+export const getUser = async (_:any, {username}:Iuser, context: {user?:Iuser}) => {
+  return await User.findOne({username})
 };

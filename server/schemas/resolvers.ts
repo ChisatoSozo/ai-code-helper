@@ -3,6 +3,7 @@ import {
     createUser,
     addToChatHistory,
     deleteChatHistory,  
+    getUser, 
 } from "../controllers";
 
 export const resolvers = {
@@ -11,5 +12,8 @@ export const resolvers = {
         createUser, 
         addToChatHistory, 
         deleteChatHistory, 
+    }, 
+    Query: {
+        getUser,
     }
 };
