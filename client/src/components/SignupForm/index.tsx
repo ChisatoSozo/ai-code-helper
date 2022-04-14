@@ -1,38 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { CREATE_ACCOUNT } from '../../utils';
 import { useNavigate } from 'react-router-dom';
+import { CREATE_ACCOUNT } from '../../utils/apis/mutations';
+import { auth, apolloErrorHandler } from '../../utils/';
 
 interface ISignupForm {
-  username: string,
-  email: string,
-  password: string
-  verifyPassword: string
-}
-
+  username: string;
+  email: string;
+  password: string;
+  verifyPassword: string;
+};
 
 export const SignupForm = () => {
-
-
-  const navigation = useNavigate()
+  const navigation = useNavigate();
   const [createAccount, { error: createAccountError }] = useMutation(CREATE_ACCOUNT);
   const [error, setError] = useState<string>('');
 
-
   const [signupForm, setSignupForm] = useState<ISignupForm>({
+    username: '',
     email: '',
     password: '',
     verifyPassword: '',
-    username: ''
   });
-  const { email, password, verifyPassword, username } = signupForm;
-  useVerifyPassword(password,verifyPassword,setError)
 
+  const { username, email, password, verifyPassword } = signupForm;
+  useVerifyPassword(password, verifyPassword, setError);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupForm((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
 
     if (!e.target.value.length) {
@@ -42,23 +39,26 @@ export const SignupForm = () => {
     }
   };
 
-
-
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (error) {
       return;
     }
+
     try {
-      //TODO
       const { data } = await createAccount({ variables: { ...signupForm } });
-      navigation('/messenger')
+
+      if (error){
+        apolloErrorHandler(error); 
+      } else if (data?.createAccount?.token) {
+        auth.saveJwtToken(data.createAccount.token); 
+        navigation('/messenger');
+      }
+
     } catch (e) {
       console.log(e);
     }
   };
-
 
   return (
     <>
@@ -98,21 +98,24 @@ export const SignupForm = () => {
         <button disabled={!!error}>Create Account</button>
       </form>
 
-      {error && (<p>{error}</p>)}
-      {createAccountError && (<p>Error Creating Account</p>)}
+      {error && <p>{error}</p>}
+      {createAccountError && <p>Error Creating Account</p>}
     </>
   );
 };
 
-
 //Verify the users passwords match
-const useVerifyPassword = (password:string,verifyPassword:string,setError:(value:string)=>void) => {
-  useEffect(()=>{
-    console.log(password,verifyPassword)
+const useVerifyPassword = (
+  password: string,
+  verifyPassword: string,
+  setError: (value: string) => void
+) => {
+  useEffect(() => {
+    console.log(password, verifyPassword);
     if (password.localeCompare(verifyPassword) !== 0) {
       setError('passwords do not match');
     } else {
       setError('');
     }
-  },[password,verifyPassword])
-}
+  }, [password, verifyPassword]);
+};
