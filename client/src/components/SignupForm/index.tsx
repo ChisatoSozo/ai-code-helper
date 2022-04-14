@@ -42,9 +42,6 @@ export const SignupForm = () => {
     }
   };
 
-
-
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (error) {
@@ -52,6 +49,8 @@ export const SignupForm = () => {
     }
     try {
       //TODO
+
+      
       const { data } = await createAccount({ variables: { ...signupForm } });
       navigation('/messenger')
     } catch (e) {

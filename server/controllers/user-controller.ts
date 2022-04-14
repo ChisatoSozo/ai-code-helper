@@ -77,7 +77,7 @@ export const deleteChatHistory = async(_: any, __:any, context: {user?:Iuser}) =
   return document.chat; 
 };
 
-//getUser only for backend testing 
+//getUser query
 export const getUser = async (_:any, {username}:Iuser, context: {user?:Iuser}) => {
   return await User.findOne({username})
 };
