@@ -3,16 +3,36 @@ import { useMutation } from '@apollo/client';
 
 import { useNavigate } from 'react-router-dom';
 import { LOGIN } from '../../utils';
+import { Button, Paper, TextField } from '@mui/material';
+import { style } from '@mui/system';
+import { text } from 'stream/consumers';
 
 interface ILoginForm {
   email: string;
   password: string;
 }
 
-export const LoginForm = () => {
+const styles = {
+  paper: {
+    padding: '40px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    alignItems: 'center',
+  } as React.FormHTMLAttributes<HTMLFormElement>,
+  textField: {
+    width: '100%',
+  },
+  button: {
+    width: '400px',
+  }
+}
+export const LoginForm: React.FC = () => {
 
   const navigation = useNavigate()
-  const [login,{error:loginError}] = useMutation(LOGIN)
+  const [login, { error: loginError }] = useMutation(LOGIN)
 
   const [loginForm, setLoginForm] = useState<ILoginForm>({
     email: '',
@@ -30,42 +50,48 @@ export const LoginForm = () => {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if(!email || !password){
+    if (!email || !password) {
       return
     }
 
-    try{
+    try {
       //TODO
-      const {data} = await login({variables:{...loginForm}})
+      const { data } = await login({ variables: { ...loginForm } })
       navigation('/messenger')
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
 
   }
 
   return (
-    <>
-      <form>
-        <label htmlFor={'email'}>Email:</label>
-        <input
+    <Paper sx={styles.paper}>
+      <form style={styles.form}>
+        <TextField
+          sx={styles.textField}
+          //change color of label
+          InputLabelProps={{ sx: { color: 'text.primary' } }}
           onChange={handleTextChange}
           name={'email'}
+          label={'Email'}
           placeholder={'email'}
           type={'email'}
           value={email}
         />
-        <label htmlFor={'password'}>Password:</label>
-        <input
+        <TextField
+          sx={styles.textField}
+          //change color of the label
+          InputLabelProps={{ sx: { color: 'text.primary' } }}
           onChange={handleTextChange}
           name={'password'}
+          label={'Password'}
           placeholder={'password'}
           type={'password'}
           value={password}
         />
-        <button>Create Account</button>
+        <Button variant='contained' color='primary' sx={styles.button}>Login</Button>
       </form>
       {loginError && (<p>Error Logging in</p>)}
-    </>
+    </Paper>
   );
 };
