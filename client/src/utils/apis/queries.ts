@@ -1,11 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const GET_USER = gql`
+export const GET_CONVERSATION = gql`
   query GetUser($username: String!) {
     getUser(username: $username) {
-      _id
-      username
-      email
       chat {
         isUser
         message
