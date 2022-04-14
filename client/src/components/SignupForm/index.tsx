@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { CREATE_ACCOUNT } from '../../utils';
-import {auth} from '../../utils/auth';
+import { CREATE_ACCOUNT } from '../../utils/apis/mutations';
+import { auth, apolloErrorHandler } from '../../utils/';
 
 interface ISignupForm {
   username: string;
@@ -44,11 +44,17 @@ export const SignupForm = () => {
     if (error) {
       return;
     }
+
     try {
       const { data } = await createAccount({ variables: { ...signupForm } });
-      auth.saveJwtToken(data.createAccount.token); 
 
-      navigation('/messenger');
+      if (error){
+        apolloErrorHandler(error); 
+      } else if (data?.createAccount?.token) {
+        auth.saveJwtToken(data.createAccount.token); 
+        navigation('/messenger');
+      }
+
     } catch (e) {
       console.log(e);
     }
