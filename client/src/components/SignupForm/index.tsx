@@ -9,12 +9,11 @@ interface ISignupForm {
   email: string;
   password: string;
   verifyPassword: string;
-}
+};
 
 export const SignupForm = () => {
   const navigation = useNavigate();
-  const [createAccount, { error: createAccountError }] =
-    useMutation(CREATE_ACCOUNT);
+  const [createAccount, { error: createAccountError }] = useMutation(CREATE_ACCOUNT);
   const [error, setError] = useState<string>('');
 
   const [signupForm, setSignupForm] = useState<ISignupForm>({
@@ -48,7 +47,7 @@ export const SignupForm = () => {
     try {
       const { data } = await createAccount({ variables: { ...signupForm } });
       auth.saveJwtToken(data.createAccount.token); 
-      
+
       navigation('/messenger');
     } catch (e) {
       console.log(e);
