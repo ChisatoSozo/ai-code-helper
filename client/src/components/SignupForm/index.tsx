@@ -52,6 +52,7 @@ export const SignupForm = () => {
         apolloErrorHandler(error); 
       } else if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token); 
+
         navigation('/messenger');
       }
 
