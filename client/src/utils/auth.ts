@@ -3,7 +3,7 @@ import decode from 'jwt-decode';
 
 export const auth = {
   // get user data
-  getProfile: () => {
+  getMessage: () => {
     // TODO
     //@ts-ignore
     return decode(this.getToken() as string);

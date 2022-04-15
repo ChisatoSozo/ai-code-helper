@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-
 import { useNavigate } from 'react-router-dom';
-import { LOGIN } from '../../utils';
+import { LOGIN } from '../../utils/apis/mutations';
+import { auth, apolloErrorHandler } from '../../utils';
+
 import { Button, Paper, TextField } from '@mui/material';
 import { style } from '@mui/system';
 import { text } from 'stream/consumers';
@@ -27,12 +28,12 @@ const styles = {
   },
   button: {
     width: '400px',
-  }
-}
-export const LoginForm: React.FC = () => {
+  },
+};
 
-  const navigation = useNavigate()
-  const [login, { error: loginError }] = useMutation(LOGIN)
+export const LoginForm: React.FC = () => {
+  const navigation = useNavigate();
+  const [login, { error: loginError }] = useMutation(LOGIN);
 
   const [loginForm, setLoginForm] = useState<ILoginForm>({
     email: '',
@@ -48,25 +49,29 @@ export const LoginForm: React.FC = () => {
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!email || !password) {
-      return
+      return;
     }
 
     try {
-      //TODO
-      const { data } = await login({ variables: { ...loginForm } })
-      navigation('/messenger')
-    } catch (e) {
-      console.log(e)
-    }
+      const { data } = await login({ variables: { ...loginForm } });
+      console.log(data) //able to grab chat data 
+      auth.saveJwtToken(data.login.token);
+      console.log(data.login.token); //token is same as local storage
 
-  }
+      navigation('/messenger');
+
+    } catch (e) {
+      console.log(e);
+      apolloErrorHandler(e);
+    }
+  };
 
   return (
     <Paper sx={styles.paper}>
-      <form style={styles.form}>
+      <form style={styles.form} onSubmit={handleFormSubmit}>
         <TextField
           sx={styles.textField}
           //change color of label
@@ -89,9 +94,16 @@ export const LoginForm: React.FC = () => {
           type={'password'}
           value={password}
         />
-        <Button variant='contained' color='primary' sx={styles.button}>Login</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={styles.button}
+          type="submit"
+        >
+          Login
+        </Button>
       </form>
-      {loginError && (<p>Error Logging in</p>)}
+      {loginError && <p>Error Logging in</p>}
     </Paper>
   );
 };
