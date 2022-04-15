@@ -10,7 +10,7 @@ interface ISignupForm {
   email: string;
   password: string;
   verifyPassword: string;
-};
+}
 
 const styles = {
   paper: {
@@ -27,11 +27,12 @@ const styles = {
   },
   button: {
     width: '400px',
-  }
-}
+  },
+};
 export const SignupForm = () => {
   const navigation = useNavigate();
-  const [createAccount, { error: createAccountError }] = useMutation(CREATE_ACCOUNT);
+  const [createAccount, { error: createAccountError }] =
+    useMutation(CREATE_ACCOUNT);
   const [error, setError] = useState<string>('');
 
   const [signupForm, setSignupForm] = useState<ISignupForm>({
@@ -65,14 +66,11 @@ export const SignupForm = () => {
 
     try {
       const { data } = await createAccount({ variables: { ...signupForm } });
-
-      if (error) {
-        apolloErrorHandler(error);
-      } else if (data?.createAccount?.token) {
+      if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token);
-        navigation('/messenger');
       }
-
+      console.log("Account created successfuly");
+      navigation('/messenger');
     } catch (e) {
       console.log(e);
     }
@@ -80,7 +78,7 @@ export const SignupForm = () => {
 
   return (
     <Paper sx={styles.paper}>
-      <form onSubmit={handleFormSubmit} style={styles.form}>
+      <form style={styles.form} onSubmit={handleFormSubmit}>
         <TextField
           sx={styles.textField}
           onChange={handleTextChange}
@@ -112,7 +110,26 @@ export const SignupForm = () => {
           placeholder={'verify password'}
           type={'password'}
           value={verifyPassword}
-        />{error ? <Button disabled variant='contained' color='primary' sx={styles.button}>Create Account</Button> : <Button type='submit' variant='contained' color='primary' sx={styles.button}>Create Account</Button>}
+        />
+        {error ? (
+          <Button
+            disabled
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+          >
+            Create Account
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+            type="submit"
+          >
+            Create Account
+          </Button>
+        )}
       </form>
 
       {error && <p>{error}</p>}
