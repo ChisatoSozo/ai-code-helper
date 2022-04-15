@@ -111,11 +111,11 @@ const useVerifyPassword = (
   setError: (value: string) => void
 ) => {
   useEffect(() => {
-    console.log(password, verifyPassword);
     if (password.localeCompare(verifyPassword) !== 0) {
       setError('passwords do not match');
     } else {
       setError('');
     }
   }, [password, verifyPassword]);
+  console.log(password, verifyPassword);
 };
