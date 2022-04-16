@@ -15,10 +15,9 @@ export const useSendMessage = (messageHistory: IMessage[]) => {
       try {
         setLoading(true);
         const conversationHistory = conversationGen(message, messageHistory);
-        console.log(conversationHistory);
         const aIResponse: false | string = await ai21API(conversationHistory);
         if (aIResponse === false) {
-
+          throw new Error('SaraBot is unresponsive')
         }
         const addChatMessagesInput = {
           messages:{
