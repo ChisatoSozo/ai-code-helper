@@ -26,7 +26,7 @@ export const conversationGen = (message:string, messageHistory:IMessage[]) => {
     conversation+= `\n${message.isUser?'You':'SaraBot'}: "${message.message}"`
   }
 
-  conversation += `\nYou: "${message}"`
+  conversation += `\nYou: "${message}"` + `\nSaraBot: "`
 
   return conversation
 }
