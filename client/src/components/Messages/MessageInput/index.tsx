@@ -31,8 +31,9 @@ const MessageInput:React.FC<props> = ({sendMessage,setIsModalOpen}) => {
     e.preventDefault();
 
     try{
-      await sendMessage(messageInput)
-
+      const message = messageInput
+      setMessageInput('')
+      await sendMessage(message)
     }catch (e) {
       console.log(e)
     }
