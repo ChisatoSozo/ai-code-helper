@@ -62,7 +62,7 @@ export const MessengerPage = () => {
         <Message isUser={isUser} message={message} key={index}/>
       ))}
 
-      <Message loading={loading}/>
+          {loading && (<Message loading={true} />)}
           </div>
       <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen}/>
       </div>
