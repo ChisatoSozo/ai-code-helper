@@ -9,25 +9,31 @@ import { useSendMessage } from '../hooks';
 import OptionsModal from '../components/OptionsModal';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundMedia } from '../components/BackgroundMedia';
+import { Container, Paper } from '@mui/material';
 
 
 const styles = {
-  container:{
-    height:'100vh',
-    width:'100vw',
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'column'
+  container: {
+    height: '100vh',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
-  conversationContainer:{
-    backgroundColor:'white',
-    height:'90vh'
+  conversationContainer: {
+    backgroundColor: 'white',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '60px'
   },
-  messagesContainer:{
-    minHeight: '-webkit-fill-available',
+  messagesContainer: {
+    height: 'calc(100vh - 200px)',
+    width: '100%',
+    overflow: 'auto',
   }
-}as const
+} as const
 
 
 export const MessengerPage = () => {
@@ -39,34 +45,34 @@ export const MessengerPage = () => {
   //   navigation('/')
   // }
 
-  const {data, error} = useQuery(GET_CONVERSATION)
+  const { data, error } = useQuery(GET_CONVERSATION)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [messages,setMessages] = useState<IMessage[]>([])
-  const { sendMessage,loading } = useSendMessage(messages)
+  const [messages, setMessages] = useState<IMessage[]>([])
+  const { sendMessage, loading } = useSendMessage(messages)
 
   useEffect(() => {
     apolloErrorHandler(error)
-    if(data?.getUser?.chat){
+    if (data?.getUser?.chat) {
       setMessages(data.getUser.chat)
     }
-  }, [data,error]);
+  }, [data, error]);
 
-    
+
   return (
-    <div style={styles.container}>
-      <BackgroundMedia/>
-      <div style={styles.conversationContainer}>
-      {error && (<p>Error getting conversation history</p>)}
+    <Container maxWidth='md' style={styles.container}>
+      <BackgroundMedia />
+      <Paper style={styles.conversationContainer}>
+        {error && (<p>Error getting conversation history</p>)}
         <div style={styles.messagesContainer}>
-      {messages.map(({ message,isUser }:IMessage,index:number)=>(
-        <Message isUser={isUser} message={message} key={index}/>
-      ))}
+          {messages.map(({ message, isUser }: IMessage, index: number) => (
+            <Message isUser={isUser} message={message} key={index} />
+          ))}
 
           {loading && (<Message loading={true} />)}
-          </div>
-      <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen}/>
-      </div>
-      <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-    </div>
+        </div>
+        <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen} />
+      </Paper>
+      <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+    </Container >
   );
 };

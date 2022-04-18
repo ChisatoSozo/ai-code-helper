@@ -2,26 +2,32 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 
 const styles = {
-  container:{
-    display:'flex'
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%'
   },
-  optionsButton:{
+  optionsButton: {
 
   },
-  input:{
-
+  formFlex: {
+    display: 'flex',
+    width: '100%',
   },
-  submitButton:{
-    height:'100%'
+  input: {
+    flexGrow: 1
+  },
+  submitButton: {
+    height: '100%',
   }
 };
 
 interface props {
-  sendMessage(message:string): Promise<void>
-  setIsModalOpen(value:boolean):void
+  sendMessage(message: string): Promise<void>
+  setIsModalOpen(value: boolean): void
 }
 
-const MessageInput:React.FC<props> = ({sendMessage,setIsModalOpen}) => {
+const MessageInput: React.FC<props> = ({ sendMessage, setIsModalOpen }) => {
 
   const [messageInput, setMessageInput] = useState<string>('');
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,24 +36,26 @@ const MessageInput:React.FC<props> = ({sendMessage,setIsModalOpen}) => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try{
+    try {
       const message = messageInput
       setMessageInput('')
       await sendMessage(message)
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
 
   };
-const openModal = () => {
-  setIsModalOpen(true)
-}
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
 
 
   return (
     <div style={styles.container}>
       <Button variant={'contained'} sx={styles.optionsButton} onClick={openModal}>OPTIONS</Button>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}
+        style={styles.formFlex}
+      >
         <TextField
           sx={styles.input}
           //change color of the label
