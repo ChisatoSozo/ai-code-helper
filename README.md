@@ -16,7 +16,10 @@
 
 ## Description
 
-This project features a chat function for users to interact with an AI. Through AI21's API, user is able to ask questions and receive answers in real time. 
+SaraBot is an AI Tutor that can help assist your education. 
+Through our intuitive chat design, users are able to ask questions to the AI and receive an answer promptly. 
+Using a mobile first development, we were able to create a responsive application that users can be accessed through any devices. 
+Utilizing AI21's API, we are able to establish a reliable and well trained AI Library. 
 
 ## Technology
 
@@ -62,4 +65,4 @@ Meet the Devs:
 
 * Travis: Front End [GitHub](https://github.com/Travis-Anderson023)
 * Ryan: Back End [GitHub](https://github.com/moonryc)
-* Joe: [GitHub](https://github.com/jollypong)
+* Joe: Back End [GitHub](https://github.com/jollypong)
