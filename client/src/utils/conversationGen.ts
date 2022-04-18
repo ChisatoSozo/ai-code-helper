@@ -9,7 +9,6 @@ let prompt = `SaraBot is your tutor. She has knowledge of javascript, html, css 
 
 
 export const conversationGen = (message:string, messageHistory:IMessage[]) => {
-
   let conversation = prompt
 
   //TODO lets talk about this I dont like this
