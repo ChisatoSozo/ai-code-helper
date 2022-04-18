@@ -78,6 +78,9 @@ export const deleteChatHistory = async(_: any, __:any, context: {user?:Iuser}) =
 };
 
 //getUser query
-export const getUser = async (_:any, {username}:Iuser, context: {user?:Iuser}) => {
-  return await User.findOne({username})
+export const getUser = async (_:any,__:any, context: {user?:Iuser}) => {
+  if(!context.user){
+    throw new AuthenticationError('User is not logged in')
+  }
+  return User.findOne({ _id: context.user._id });
 };
