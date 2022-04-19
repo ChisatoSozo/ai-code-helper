@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN } from '../../utils';
-import { apolloErrorHandler} from '../../utils';
+import { apolloErrorHandler } from '../../utils';
 import { Button, Paper, TextField } from '@mui/material';
 import auth from '../../utils/auth';
 
@@ -26,6 +26,7 @@ const styles = {
   },
   button: {
     width: '400px',
+    maxWidth: '100%',
   },
 };
 

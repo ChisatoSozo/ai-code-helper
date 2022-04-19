@@ -28,6 +28,7 @@ const styles = {
   },
   button: {
     width: '400px',
+    maxWidth: '100%',
   }
 }
 export const SignupForm = () => {
