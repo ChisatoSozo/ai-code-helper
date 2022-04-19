@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { auth, GET_CONVERSATION } from '../utils';
+import { GET_CONVERSATION } from '../utils';
 import { apolloErrorHandler } from '../utils';
 import Message from '../components/Messages/Message';
 import { IMessage } from '../types';
@@ -10,6 +10,7 @@ import OptionsModal from '../components/OptionsModal';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundMedia } from '../components/BackgroundMedia';
 import { Box, Container, Paper } from '@mui/material';
+import auth from '../utils/auth';
 
 
 const styles = {
@@ -39,10 +40,9 @@ export const MessengerPage: React.FC = () => {
 
   const bottomOfChat = useRef<null | HTMLDivElement>(null)
   const navigation = useNavigate()
-  //TODO
-  // if(!auth.isLoggedIn()){
-  //   navigation('/')
-  // }
+  if (!auth.isLoggedIn()) {
+    navigation('/')
+  }
 
   const { data, error } = useQuery(GET_CONVERSATION)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

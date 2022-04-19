@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { LOGIN } from '../../utils/apis/mutations';
-import { auth, apolloErrorHandler } from '../../utils';
-
+import { LOGIN } from '../../utils';
+import { apolloErrorHandler } from '../../utils';
 import { Button, Paper, TextField } from '@mui/material';
+import auth from '../../utils/auth';
 
 interface ILoginForm {
   email: string;

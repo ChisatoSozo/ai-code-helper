@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { apolloErrorHandler, auth, DELETE_CHAT, GET_CONVERSATION } from '../../utils';
+import { apolloErrorHandler, DELETE_CHAT, GET_CONVERSATION } from '../../utils';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import auth from '../../utils/auth';
 
 const styles = {
   background: {
