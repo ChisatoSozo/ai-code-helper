@@ -5,8 +5,6 @@ import { LOGIN } from '../../utils/apis/mutations';
 import { auth, apolloErrorHandler } from '../../utils';
 
 import { Button, Paper, TextField } from '@mui/material';
-import { style } from '@mui/system';
-import { text } from 'stream/consumers';
 
 interface ILoginForm {
   email: string;
@@ -28,6 +26,7 @@ const styles = {
   },
   button: {
     width: '400px',
+    maxWidth: '100%',
   },
 };
 

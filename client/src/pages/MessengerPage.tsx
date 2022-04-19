@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { auth, GET_CONVERSATION } from '../utils';
 import { apolloErrorHandler } from '../utils';
@@ -9,7 +9,7 @@ import { useSendMessage } from '../hooks';
 import OptionsModal from '../components/OptionsModal';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundMedia } from '../components/BackgroundMedia';
-import { Container, Paper } from '@mui/material';
+import { Box, Container, Paper } from '@mui/material';
 
 
 const styles = {
@@ -19,14 +19,13 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   conversationContainer: {
-    backgroundColor: 'white',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    margin: '60px'
+    margin: '60px',
   },
   messagesContainer: {
     height: 'calc(100vh - 200px)',
@@ -36,9 +35,9 @@ const styles = {
 } as const
 
 
-export const MessengerPage = () => {
+export const MessengerPage: React.FC = () => {
 
-
+  const bottomOfChat = useRef<null | HTMLDivElement>(null)
   const navigation = useNavigate()
   //TODO
   // if(!auth.isLoggedIn()){
@@ -57,20 +56,31 @@ export const MessengerPage = () => {
     }
   }, [data, error]);
 
+  useEffect(() => {
+    if (bottomOfChat.current) {
+      bottomOfChat.current.scrollIntoView({
+        block: "nearest",
+        inline: "start"
+      })
+    }
+  }, [messages])
 
   return (
     <Container maxWidth='md' style={styles.container}>
       <BackgroundMedia />
-      <Paper style={styles.conversationContainer}>
+      <Paper style={styles.conversationContainer} >
         {error && (<p>Error getting conversation history</p>)}
-        <div style={styles.messagesContainer}>
+        <Box style={styles.messagesContainer}>
           {messages.map(({ message, isUser }: IMessage, index: number) => (
             <Message isUser={isUser} message={message} key={index} />
           ))}
 
           {loading && (<Message loading={true} />)}
-        </div>
-        <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen} />
+          <Box ref={bottomOfChat} />
+        </Box>
+      </Paper>
+      <Paper sx={{ width: '100%', bgcolor: 'transparent' }}>
+        <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen} messages={messages} setMessages={setMessages} />
       </Paper>
       <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </Container >

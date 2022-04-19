@@ -10,8 +10,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, MessengerPage, SignupPage } from './pages';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@emotion/react';
+import { Box, Button, createTheme, ThemeProvider } from '@mui/material';
+
 
 const httpLink = createHttpLink({
   uri: '/graphql'
@@ -32,13 +32,16 @@ const theme = createTheme({
     primary: {
       main: '#39603D'
     },
+    secondary: {
+      main: '#678e85'
+    },
     text: {
-      primary: '#3c403d',
+      primary: '#000',
       secondary: '#fff'
     },
     background: {
       default: '#daded4',
-      paper: '#a3bcb6'
+      paper: '#ffffffcc'
     },
   },
   typography: {

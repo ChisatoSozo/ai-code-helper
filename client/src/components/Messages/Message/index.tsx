@@ -1,21 +1,6 @@
-import React from 'react';
-
-const styles = {
-  container: {
-    padding: '10px',
-    width: 'fit-content',
-    margin: '5px',
-    color: 'white'
-  },
-  userMessage: {
-    backgroundColor: 'blue',
-    marginLeft: 'auto',
-    maxWidth: '70%',
-  },
-  aiMessage: {
-    backgroundColor: 'green'
-  }
-};
+import { Box, Typography } from '@mui/material';
+import React, { useRef } from 'react';
+import { useEffect } from 'react';
 
 
 interface props {
@@ -25,22 +10,96 @@ interface props {
 }
 
 const Message: React.FC<props> = ({ isUser = false, message = '', loading = false }) => {
+  // const loadingRef = useRef<null | HTMLDivElement>(null)
+  // useEffect((): void => {
+  //   if (loadingRef.current) {
+
+
+  const styles = {
+    container: {
+      padding: '10px',
+      margin: '20px',
+      width: 'fit-content',
+      color: 'white'
+    },
+    loading: {
+      '@keyframes loading': {
+        '0%': {
+          transform: 'translateY(0)',
+        },
+        '50%': {
+          transform: 'translateY(-5px)',
+        },
+        '100%': {
+          transform: 'translateY(0)',
+        }
+      },
+      'p:nth-child(1)': {
+        animation: 'loading .7s infinite',
+        animationDelay: '0s',
+      },
+      'p:nth-child(2)': {
+        animation: 'loading .7s infinite',
+        animationDelay: '0.1s',
+      },
+      'p:nth-child(3)': {
+        animation: 'loading .7s infinite',
+        animationDelay: '0.2s',
+      }
+    },
+    userMessage: {
+      bgcolor: 'primary.light',
+      marginLeft: 'auto',
+      maxWidth: '70%',
+      borderRadius: '10px 10px 0 10px',
+    },
+    userName: {
+      marginLeft: 'auto',
+      marginRight: '10px',
+      padding: '10px',
+      width: 'fit-content',
+    },
+    aiMessage: {
+      backgroundColor: 'secondary.main',
+      borderRadius: '10px 10px 10px 0px',
+    },
+    aiName: {
+      marginRight: 'auto',
+      marginLeft: '10px',
+      padding: '10px',
+      maxWidth: '70%',
+    },
+  };
 
   if (loading) {
     return (
-      <div style={{ ...styles.container, backgroundColor: 'gray' }}>
-        Thinking
-      </div>
+      <Box sx={{ ...styles.container, display: 'flex', ...styles.aiMessage, ...styles.loading }}>
+        <Typography>.</Typography>
+        <Typography>.</Typography>
+        <Typography>.</Typography>
+      </Box>
     )
   }
 
-  const messageStyle = isUser ? styles.userMessage : styles.aiMessage
-
-  return (
-    <div style={{ ...styles.container, ...messageStyle }}>
-      {message}
-    </div>
-  );
+  if (isUser) {
+    return (
+      <Box>
+        <Typography variant={'body1'} sx={styles.userName}>You</Typography>
+        <Box sx={{ ...styles.container, ...styles.userMessage }}>
+          {message}
+        </Box>
+      </Box>
+    );
+  } else {
+    return (
+      <Box>
+        <Typography variant={'body1'} sx={styles.aiName}>Sarabot:</Typography>
+        <Box sx={{ ...styles.container, ...styles.aiMessage }}>
+          {message}
+        </Box>
+      </Box >
+    );
+  }
 };
 
 export default Message;
