@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { auth, GET_CONVERSATION } from '../utils';
+import { GET_CONVERSATION } from '../utils';
 import { apolloErrorHandler } from '../utils';
 import Message from '../components/Messages/Message';
 import { IMessage } from '../types';
@@ -9,64 +9,80 @@ import { useSendMessage } from '../hooks';
 import OptionsModal from '../components/OptionsModal';
 import { useNavigate } from 'react-router-dom';
 import { BackgroundMedia } from '../components/BackgroundMedia';
+import { Box, Container, Paper } from '@mui/material';
+import auth from '../utils/auth';
 
 
 const styles = {
-  container:{
-    height:'100vh',
-    width:'100vw',
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'column'
+  container: {
+    height: '100vh',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
-  conversationContainer:{
-    backgroundColor:'white',
-    height:'90vh'
+  conversationContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '60px',
   },
-  messagesContainer:{
-    minHeight: '-webkit-fill-available',
+  messagesContainer: {
+    height: 'calc(100vh - 200px)',
+    width: '100%',
+    overflow: 'auto',
   }
-}as const
+} as const
 
 
-export const MessengerPage = () => {
+export const MessengerPage: React.FC = () => {
 
-
+  const bottomOfChat = useRef<null | HTMLDivElement>(null)
   const navigation = useNavigate()
-  //TODO
-  // if(!auth.isLoggedIn()){
-  //   navigation('/')
-  // }
+  if (!auth.isLoggedIn()) {
+    navigation('/')
+  }
 
-  const {data, error} = useQuery(GET_CONVERSATION)
+  const { data, error } = useQuery(GET_CONVERSATION)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [messages,setMessages] = useState<IMessage[]>([])
-  const { sendMessage,loading } = useSendMessage(messages)
+  const [messages, setMessages] = useState<IMessage[]>([])
+  const { sendMessage, loading } = useSendMessage(messages)
 
   useEffect(() => {
     apolloErrorHandler(error)
-    if(data?.getUser?.chat){
+    if (data?.getUser?.chat) {
       setMessages(data.getUser.chat)
     }
-  }, [data,error]);
+  }, [data, error]);
 
-    
+  useEffect(() => {
+    if (bottomOfChat.current) {
+      bottomOfChat.current.scrollIntoView({
+        block: "nearest",
+        inline: "start"
+      })
+    }
+  }, [messages])
+
   return (
-    <div style={styles.container}>
-      <BackgroundMedia/>
-      <div style={styles.conversationContainer}>
-      {error && (<p>Error getting conversation history</p>)}
-        <div style={styles.messagesContainer}>
-      {messages.map(({ message,isUser }:IMessage,index:number)=>(
-        <Message isUser={isUser} message={message} key={index}/>
-      ))}
+    <Container maxWidth='md' style={styles.container}>
+      <BackgroundMedia />
+      <Paper style={styles.conversationContainer} >
+        {error && (<p>Error getting conversation history</p>)}
+        <Box style={styles.messagesContainer}>
+          {messages.map(({ message, isUser }: IMessage, index: number) => (
+            <Message isUser={isUser} message={message} key={index} />
+          ))}
 
           {loading && (<Message loading={true} />)}
-          </div>
-      <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen}/>
-      </div>
-      <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-    </div>
+          <Box ref={bottomOfChat} />
+        </Box>
+      </Paper>
+      <Paper sx={{ width: '100%', bgcolor: 'transparent' }}>
+        <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen} messages={messages} setMessages={setMessages} />
+      </Paper>
+      <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+    </Container >
   );
 };

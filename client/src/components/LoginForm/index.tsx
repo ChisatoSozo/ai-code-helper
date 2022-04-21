@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { LOGIN } from '../../utils/apis/mutations';
-import { auth, apolloErrorHandler } from '../../utils';
-
+import { LOGIN } from '../../utils';
+import { apolloErrorHandler } from '../../utils';
 import { Button, Paper, TextField } from '@mui/material';
-import { style } from '@mui/system';
-import { text } from 'stream/consumers';
+import auth from '../../utils/auth';
 
 interface ILoginForm {
   email: string;
@@ -28,6 +26,7 @@ const styles = {
   },
   button: {
     width: '400px',
+    maxWidth: '100%',
   },
 };
 

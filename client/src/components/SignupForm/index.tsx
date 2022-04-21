@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import { CREATE_ACCOUNT } from '../../utils/apis/mutations';
-import { auth, apolloErrorHandler } from '../../utils/';
+import { CREATE_ACCOUNT } from '../../utils';
+import { apolloErrorHandler } from '../../utils/';
 import { Button, Paper, TextField } from '@mui/material';
+import auth from '../../utils/auth';
 
 interface ISignupForm {
   username: string;
@@ -27,8 +28,14 @@ const styles = {
   },
   button: {
     width: '400px',
+<<<<<<< HEAD
   },
 };
+=======
+    maxWidth: '100%',
+  }
+}
+>>>>>>> develop
 export const SignupForm = () => {
   const navigation = useNavigate();
   const [createAccount, { error: createAccountError }] =
