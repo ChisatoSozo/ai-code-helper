@@ -2,25 +2,29 @@ import { Box, Typography } from '@mui/material';
 import React, { useRef } from 'react';
 import { useEffect } from 'react';
 
-
 interface props {
-  isUser?: boolean,
-  message?: string | undefined | null
-  loading?: boolean
+  isUser?: boolean;
+  message?: string | undefined | null;
+  loading?: boolean;
 }
 
-const Message: React.FC<props> = ({ isUser = false, message = '', loading = false }) => {
+const Message: React.FC<props> = ({
+  isUser = false,
+  message = '',
+  loading = false,
+}) => {
   // const loadingRef = useRef<null | HTMLDivElement>(null)
   // useEffect((): void => {
   //   if (loadingRef.current) {
-
 
   const styles = {
     container: {
       padding: '10px',
       margin: '20px',
+      marginTop: '0px',
+      marginBottom: '0px',
       width: 'fit-content',
-      color: 'white'
+      color: 'white',
     },
     loading: {
       '@keyframes loading': {
@@ -32,7 +36,7 @@ const Message: React.FC<props> = ({ isUser = false, message = '', loading = fals
         },
         '100%': {
           transform: 'translateY(0)',
-        }
+        },
       },
       'p:nth-child(1)': {
         animation: 'loading .7s infinite',
@@ -45,7 +49,7 @@ const Message: React.FC<props> = ({ isUser = false, message = '', loading = fals
       'p:nth-child(3)': {
         animation: 'loading .7s infinite',
         animationDelay: '0.2s',
-      }
+      },
     },
     userMessage: {
       bgcolor: 'primary.light',
@@ -73,31 +77,38 @@ const Message: React.FC<props> = ({ isUser = false, message = '', loading = fals
 
   if (loading) {
     return (
-      <Box sx={{ ...styles.container, display: 'flex', ...styles.aiMessage, ...styles.loading }}>
+      <Box
+        sx={{
+          ...styles.container,
+          display: 'flex',
+          ...styles.aiMessage,
+          ...styles.loading,
+        }}
+      >
         <Typography>.</Typography>
         <Typography>.</Typography>
         <Typography>.</Typography>
       </Box>
-    )
+    );
   }
 
   if (isUser) {
     return (
       <Box>
-        <Typography variant={'body1'} sx={styles.userName}>You</Typography>
-        <Box sx={{ ...styles.container, ...styles.userMessage }}>
-          {message}
-        </Box>
+        <Typography variant={'body1'} sx={styles.userName}>
+          You
+        </Typography>
+        <Box sx={{ ...styles.container, ...styles.userMessage }}>{message}</Box>
       </Box>
     );
   } else {
     return (
       <Box>
-        <Typography variant={'body1'} sx={styles.aiName}>Sarabot:</Typography>
-        <Box sx={{ ...styles.container, ...styles.aiMessage }}>
-          {message}
-        </Box>
-      </Box >
+        <Typography variant={'body1'} sx={styles.aiName}>
+          Sarabot:
+        </Typography>
+        <Box sx={{ ...styles.container, ...styles.aiMessage }}>{message}</Box>
+      </Box>
     );
   }
 };

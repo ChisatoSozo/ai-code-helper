@@ -11,7 +11,7 @@ interface ISignupForm {
   email: string;
   password: string;
   verifyPassword: string;
-};
+}
 
 const styles = {
   paper: {
@@ -29,11 +29,12 @@ const styles = {
   button: {
     width: '400px',
     maxWidth: '100%',
-  }
-}
+  },
+};
 export const SignupForm = () => {
   const navigation = useNavigate();
-  const [createAccount, { error: createAccountError }] = useMutation(CREATE_ACCOUNT);
+  const [createAccount, { error: createAccountError }] =
+    useMutation(CREATE_ACCOUNT);
   const [error, setError] = useState<string>('');
 
   const [signupForm, setSignupForm] = useState<ISignupForm>({
@@ -74,7 +75,6 @@ export const SignupForm = () => {
         auth.saveJwtToken(data.createAccount.token);
         navigation('/messenger');
       }
-
     } catch (e) {
       console.log(e);
     }
@@ -114,7 +114,34 @@ export const SignupForm = () => {
           placeholder={'verify password'}
           type={'password'}
           value={verifyPassword}
-        />{error ? <Button disabled variant='contained' color='primary' sx={styles.button}>Create Account</Button> : <Button type='submit' variant='contained' color='primary' sx={styles.button}>Create Account</Button>}
+        />
+        {error ? (
+          <Button
+            disabled
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+          >
+            Create Account
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+          >
+            Create Account
+          </Button>
+        )}
+        <Button
+          onClick={() => navigation('/login')}
+          variant="contained"
+          color="primary"
+          sx={styles.button}
+        >
+          Already have an account?
+        </Button>
       </form>
 
       {error && <p>{error}</p>}
