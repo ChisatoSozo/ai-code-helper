@@ -25,6 +25,8 @@ Utilizing AI21's API, we are able to establish a reliable and well trained AI Li
 
 Our project was created utilizing the following technologies: 
 
+* [Figma](https://www.figma.com/file/2QGSbqYyTEN3GEpukjG1D1/Untitled?node-id=0%3A1)
+
 * [AI21 studio](https://www.ai21.com/studio)
 * [React](https://reactjs.org/)
     - [React Router Dom](https://v5.reactrouter.com/web/guides/quick-start)
@@ -40,6 +42,8 @@ Our project was created utilizing the following technologies:
 This application is currently deployed on Heroku! 
 Check us out [HERE]()
 
+This page was deployed using MongoDB Atlas and Heroku. 
+
 ```
 User Manual: 
     1. You will be required to create an account. 
@@ -53,11 +57,11 @@ Begin your learning today! Talk to SaraBot!
 ```
 
 ## Screenshots
+![screenshot](./Assets/images/main.png)
 ![screenshot](./Assets/images/login.png)
 ![screenshot](./Assets/images/signup.png)
-![screenshot](./Assets/images/contactinfo.png)
-![screenshot](./Assets/images/coverletter.png)
-![screenshot](./Assets/images/accounts.png)
+![screenshot](./Assets/images/chat.png)
+![screenshot](./Assets/images/modal.png)
 
 ## Contributors
 

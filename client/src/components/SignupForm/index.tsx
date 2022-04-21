@@ -28,14 +28,9 @@ const styles = {
   },
   button: {
     width: '400px',
-<<<<<<< HEAD
-  },
-};
-=======
     maxWidth: '100%',
   }
 }
->>>>>>> develop
 export const SignupForm = () => {
   const navigation = useNavigate();
   const [createAccount, { error: createAccountError }] =
