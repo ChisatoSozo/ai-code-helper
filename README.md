@@ -18,8 +18,8 @@
 
 SaraBot is an AI Tutor that can help assist your education. 
 Through our intuitive chat design, users are able to ask questions to the AI and receive an answer promptly. 
-Using a mobile first development, we were able to create a responsive application that users can be accessed through any devices. 
-Utilizing AI21's API, we are able to establish a reliable and well trained AI Library. 
+Using a mobile first development, we were able to create a responsive application that users can access through multiple devices of their choice. 
+Utilizing AI21's API, we are able to establish a reliable and well trained AI Library that can provide accurate and acceptable responses for the users. 
 
 ## Technology
 
