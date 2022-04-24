@@ -12,7 +12,6 @@ import { BackgroundMedia } from '../components/BackgroundMedia';
 import { Box, Container, Paper } from '@mui/material';
 import auth from '../utils/auth';
 
-
 const styles = {
   container: {
     height: '100vh',
@@ -32,57 +31,60 @@ const styles = {
     height: 'calc(100vh - 200px)',
     width: '100%',
     overflow: 'auto',
-  }
-} as const
-
+  },
+} as const;
 
 export const MessengerPage: React.FC = () => {
-
-  const bottomOfChat = useRef<null | HTMLDivElement>(null)
-  const navigation = useNavigate()
+  const bottomOfChat = useRef<null | HTMLDivElement>(null);
+  const navigation = useNavigate();
   if (!auth.isLoggedIn()) {
-    navigation('/')
+    navigation('/');
   }
 
-  const { data, error } = useQuery(GET_CONVERSATION)
+  const { data, error } = useQuery(GET_CONVERSATION);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [messages, setMessages] = useState<IMessage[]>([])
-  const { sendMessage, loading } = useSendMessage(messages)
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const { sendMessage, loading } = useSendMessage(messages);
 
   useEffect(() => {
-    apolloErrorHandler(error)
+    apolloErrorHandler(error);
     if (data?.getUser?.chat) {
-      setMessages(data.getUser.chat)
+      setMessages(data.getUser.chat);
     }
   }, [data, error]);
 
   useEffect(() => {
     if (bottomOfChat.current) {
       bottomOfChat.current.scrollIntoView({
-        block: "nearest",
-        inline: "start"
-      })
+        block: 'nearest',
+        inline: 'start',
+      });
     }
-  }, [messages])
+  }, [messages]);
 
   return (
-    <Container maxWidth='md' style={styles.container}>
+    <Container maxWidth="md" style={styles.container}>
       <BackgroundMedia />
-      <Paper style={styles.conversationContainer} >
-        {error && (<p>Error getting conversation history</p>)}
+      <Paper style={styles.conversationContainer}>
+        {error && <p>Error getting conversation history</p>}
         <Box style={styles.messagesContainer}>
           {messages.map(({ message, isUser }: IMessage, index: number) => (
             <Message isUser={isUser} message={message} key={index} />
           ))}
 
-          {loading && (<Message loading={true} />)}
+          {loading && <Message loading={true} />}
           <Box ref={bottomOfChat} />
         </Box>
       </Paper>
       <Paper sx={{ width: '100%', bgcolor: 'transparent' }}>
-        <MessageInput sendMessage={sendMessage} setIsModalOpen={setIsModalOpen} messages={messages} setMessages={setMessages} />
+        <MessageInput
+          sendMessage={sendMessage}
+          setIsModalOpen={setIsModalOpen}
+          messages={messages}
+          setMessages={setMessages}
+        />
       </Paper>
       <OptionsModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-    </Container >
+    </Container>
   );
 };

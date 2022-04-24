@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { Autorenew, Refresh } from '@mui/icons-material';
+import { Box, IconButton, Typography } from '@mui/material';
 import React, { useRef } from 'react';
 import { useEffect } from 'react';
 
@@ -6,12 +7,14 @@ interface props {
   isUser?: boolean;
   message?: string | undefined | null;
   loading?: boolean;
+  key?: number | undefined;
 }
 
 const Message: React.FC<props> = ({
   isUser = false,
   message = '',
   loading = false,
+  key = undefined,
 }) => {
   // const loadingRef = useRef<null | HTMLDivElement>(null)
   // useEffect((): void => {
@@ -66,6 +69,7 @@ const Message: React.FC<props> = ({
     aiMessage: {
       backgroundColor: 'secondary.main',
       borderRadius: '10px 10px 10px 0px',
+      position: 'relative',
     },
     aiName: {
       marginRight: 'auto',
@@ -73,7 +77,16 @@ const Message: React.FC<props> = ({
       padding: '10px',
       maxWidth: '70%',
     },
+    refresh: {
+      width: '15px',
+      height: '15px',
+      position: 'absolute',
+      bottom: '0px',
+      right: '0px',
+    },
   };
+
+  const refresh = () => {};
 
   if (loading) {
     return (
@@ -107,7 +120,23 @@ const Message: React.FC<props> = ({
         <Typography variant={'body1'} sx={styles.aiName}>
           Sarabot:
         </Typography>
-        <Box sx={{ ...styles.container, ...styles.aiMessage }}>{message}</Box>
+        <Box
+          sx={{
+            ...styles.container,
+            ...styles.aiMessage,
+          }}
+        >
+          <Typography component="span">{message}</Typography>
+          <IconButton
+            color="info"
+            aria-label="upload picture"
+            component="span"
+            sx={styles.refresh}
+            onClick={refresh}
+          >
+            <Autorenew sx={styles.refresh} />
+          </IconButton>
+        </Box>
       </Box>
     );
   }

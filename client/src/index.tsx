@@ -8,13 +8,17 @@ import '@fontsource/roboto/700.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, MessengerPage, SignupPage } from './pages';
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Box, Button, createTheme, ThemeProvider } from '@mui/material';
 
-
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -22,38 +26,40 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ''
-    }
+      authorization: token ? `Bearer ${token}` : '',
+    },
   };
 });
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#39603D'
+      main: '#39603D',
     },
     secondary: {
-      main: '#678e85'
+      main: '#678e85',
+    },
+    info: {
+      main: '#fff',
     },
     text: {
       primary: '#000',
-      secondary: '#fff'
+      secondary: '#fff',
     },
     background: {
       default: '#daded4',
-      paper: '#ffffffcc'
+      paper: '#ffffffcc',
     },
   },
   typography: {
     fontFamily: "'Exo 2',sans-serif",
-  }
+  },
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
-
 
 render(
   <ApolloProvider client={client}>
@@ -67,8 +73,7 @@ render(
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-  </ApolloProvider>
-  ,
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
