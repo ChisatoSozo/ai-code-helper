@@ -56,11 +56,10 @@ export const LoginForm: React.FC = () => {
 
     try {
       const { data } = await login({ variables: { ...loginForm } });
-      // console.log(data) //able to grab chat data 
+      // console.log(data) //able to grab chat data
       auth.saveJwtToken(data.login.token);
       // console.log(data.login.token); //token is same as local storage
       navigation('/messenger');
-
     } catch (e) {
       console.log(e);
       apolloErrorHandler(e);
@@ -99,6 +98,14 @@ export const LoginForm: React.FC = () => {
           type="submit"
         >
           Login
+        </Button>
+        <Button
+          onClick={() => navigation('/signup')}
+          variant="contained"
+          color="primary"
+          sx={styles.button}
+        >
+          Need an account?
         </Button>
       </form>
       {loginError && <p>Error Logging in</p>}

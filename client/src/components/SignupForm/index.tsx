@@ -29,8 +29,8 @@ const styles = {
   button: {
     width: '400px',
     maxWidth: '100%',
-  }
-}
+  },
+};
 export const SignupForm = () => {
   const navigation = useNavigate();
   const [createAccount, { error: createAccountError }] =
@@ -71,7 +71,7 @@ export const SignupForm = () => {
       if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token);
       }
-      console.log("Account created successfuly");
+      console.log('Account created successfuly');
       navigation('/messenger');
     } catch (e) {
       console.log(e);
@@ -124,14 +124,22 @@ export const SignupForm = () => {
           </Button>
         ) : (
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             sx={styles.button}
-            type="submit"
           >
             Create Account
           </Button>
         )}
+        <Button
+          onClick={() => navigation('/login')}
+          variant="contained"
+          color="primary"
+          sx={styles.button}
+        >
+          Already have an account?
+        </Button>
       </form>
 
       {error && <p>{error}</p>}
