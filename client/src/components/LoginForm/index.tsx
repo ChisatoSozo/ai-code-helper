@@ -56,10 +56,13 @@ export const LoginForm: React.FC = () => {
 
     try {
       const { data } = await login({ variables: { ...loginForm } });
+<<<<<<< HEAD
       console.log(data); //able to grab chat data
+=======
+      // console.log(data) //able to grab chat data 
+>>>>>>> develop
       auth.saveJwtToken(data.login.token);
-      console.log(data.login.token); //token is same as local storage
-
+      // console.log(data.login.token); //token is same as local storage
       navigation('/messenger');
     } catch (e) {
       console.log(e);

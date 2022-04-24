@@ -68,13 +68,14 @@ export const SignupForm = () => {
 
     try {
       const { data } = await createAccount({ variables: { ...signupForm } });
-
-      if (error) {
-        apolloErrorHandler(error);
-      } else if (data?.createAccount?.token) {
+      if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token);
-        navigation('/messenger');
       }
+<<<<<<< HEAD
+=======
+      console.log("Account created successfuly");
+      navigation('/messenger');
+>>>>>>> develop
     } catch (e) {
       console.log(e);
     }
@@ -82,7 +83,7 @@ export const SignupForm = () => {
 
   return (
     <Paper sx={styles.paper}>
-      <form onSubmit={handleFormSubmit} style={styles.form}>
+      <form style={styles.form} onSubmit={handleFormSubmit}>
         <TextField
           sx={styles.textField}
           onChange={handleTextChange}
@@ -126,14 +127,22 @@ export const SignupForm = () => {
           </Button>
         ) : (
           <Button
+<<<<<<< HEAD
             type="submit"
             variant="contained"
             color="primary"
             sx={styles.button}
+=======
+            variant="contained"
+            color="primary"
+            sx={styles.button}
+            type="submit"
+>>>>>>> develop
           >
             Create Account
           </Button>
         )}
+<<<<<<< HEAD
         <Button
           onClick={() => navigation('/login')}
           variant="contained"
@@ -142,6 +151,8 @@ export const SignupForm = () => {
         >
           Already have an account?
         </Button>
+=======
+>>>>>>> develop
       </form>
 
       {error && <p>{error}</p>}
