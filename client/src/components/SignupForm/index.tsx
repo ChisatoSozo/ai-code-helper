@@ -71,11 +71,8 @@ export const SignupForm = () => {
       if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token);
       }
-<<<<<<< HEAD
-=======
-      console.log("Account created successfuly");
+      console.log('Account created successfuly');
       navigation('/messenger');
->>>>>>> develop
     } catch (e) {
       console.log(e);
     }
@@ -127,22 +124,14 @@ export const SignupForm = () => {
           </Button>
         ) : (
           <Button
-<<<<<<< HEAD
             type="submit"
             variant="contained"
             color="primary"
             sx={styles.button}
-=======
-            variant="contained"
-            color="primary"
-            sx={styles.button}
-            type="submit"
->>>>>>> develop
           >
             Create Account
           </Button>
         )}
-<<<<<<< HEAD
         <Button
           onClick={() => navigation('/login')}
           variant="contained"
@@ -151,8 +140,6 @@ export const SignupForm = () => {
         >
           Already have an account?
         </Button>
-=======
->>>>>>> develop
       </form>
 
       {error && <p>{error}</p>}
