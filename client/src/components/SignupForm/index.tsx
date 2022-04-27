@@ -71,7 +71,6 @@ export const SignupForm = () => {
       if (data?.createAccount?.token) {
         auth.saveJwtToken(data.createAccount.token);
       }
-      console.log('Account created successfuly');
       navigation('/messenger');
     } catch (e) {
       console.log(e);
@@ -161,5 +160,4 @@ const useVerifyPassword = (
       setError('');
     }
   }, [password, verifyPassword]);
-  console.log(password, verifyPassword);
 };

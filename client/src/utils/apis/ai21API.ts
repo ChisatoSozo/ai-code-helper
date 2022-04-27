@@ -1,20 +1,23 @@
 export const ai21API = async (prompt: string) => {
   try {
-    const response = await fetch('https://api.ai21.com/studio/v1/j1-large/complete', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.REACT_APP_API_TOKEN}`
-      },
-      body: JSON.stringify({
-        prompt,
-        numResults: 1,
-        maxTokens: 100,
-        stopSequences: [`"`],
-        topKReturn: 0,
-        temperature: 0.7
-      })
-    });
+    const response = await fetch(
+      `https://api.ai21.com/studio/v1/j1-${process.env.REACT_APP_AI_SIZE}/complete`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+        },
+        body: JSON.stringify({
+          prompt,
+          numResults: 1,
+          maxTokens: 100,
+          stopSequences: [`"`],
+          topKReturn: 0,
+          temperature: 0.7,
+        }),
+      }
+    );
     if (!response.ok) {
       return false;
     }
@@ -30,5 +33,4 @@ export const ai21API = async (prompt: string) => {
     console.log(e);
     return false;
   }
-
 };
