@@ -1,7 +1,9 @@
+import { useMutation } from '@apollo/client';
 import { Autorenew } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import React from 'react';
 import { IMessage } from '../../../types';
+import { DELETE_SOME_MESSAGES, GET_CONVERSATION } from '../../../utils';
 
 interface props {
   isUser?: boolean;
@@ -92,11 +94,18 @@ const Message: React.FC<props> = ({
     },
   };
 
+  const [deleteSomeMessages, { error: deleteSomeMessagesError }] = useMutation(
+    DELETE_SOME_MESSAGES,
+    {
+      refetchQueries: [GET_CONVERSATION],
+    }
+  );
+
   const refresh = () => {
-    let messagesObj: IMessage[] = messages;
-    const input: IMessage['message'] = messages[index - 1].message;
-    messagesObj = messagesObj.slice(0, index - 1);
-    setMessages(messagesObj);
+    const input: string = messages[index - 1].message || '';
+    deleteSomeMessages({
+      variables: { numberOfMessagesToDelete: messages.length - index + 1 },
+    });
     sendMessage(input);
   };
 

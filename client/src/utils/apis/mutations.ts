@@ -50,3 +50,12 @@ export const DELETE_CHAT = gql`
     }
   }
 `;
+
+export const DELETE_SOME_MESSAGES = gql`
+  mutation RemoveXMessages($numberOfMessagesToDelete: Float!) {
+    removeXMessages(numberOfMessagesToDelete: $numberOfMessagesToDelete) {
+      isUser
+      message
+    }
+  }
+`;
