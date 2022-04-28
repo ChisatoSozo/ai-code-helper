@@ -34,6 +34,7 @@ const styles = {
     justifyContent: 'space-evenly',
     height: '50vh',
     width: '25vw',
+    minWidth: '300px',
     backgroundColor: 'grey',
     padding: '10px',
     borderRadius: '15px',
