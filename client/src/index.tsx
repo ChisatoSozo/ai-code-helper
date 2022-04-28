@@ -18,7 +18,7 @@ import { setContext } from '@apollo/client/link/context';
 import { Box, Button, createTheme, ThemeProvider } from '@mui/material';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: `${process.env.PUBLIC_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -64,7 +64,7 @@ const client = new ApolloClient({
 render(
   <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path={'/'} element={<HomePage />} />
           <Route path={'/login'} element={<LoginPage />} />

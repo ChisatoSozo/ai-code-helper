@@ -16,7 +16,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
-    opacity: .8
+    opacity: 0.8,
   },
   container: {
     display: 'flex',
@@ -27,7 +27,6 @@ const styles = {
     height: '100vh',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   modalContainer: {
     display: 'flex',
@@ -36,11 +35,10 @@ const styles = {
     height: '50vh',
     width: '25vw',
     backgroundColor: 'grey',
-    padding:'10px',
-    borderRadius:'15px'
-  }
+    padding: '10px',
+    borderRadius: '15px',
+  },
 } as const;
-
 
 interface props {
   isModalOpen: boolean;
@@ -49,11 +47,10 @@ interface props {
 }
 
 const OptionsModal: React.FC<props> = ({ isModalOpen, setIsModalOpen }) => {
-
   const navigation = useNavigate();
 
   const [deleteChat, { error }] = useMutation(DELETE_CHAT, {
-    refetchQueries: [GET_CONVERSATION]
+    refetchQueries: [GET_CONVERSATION],
   });
 
   useEffect(() => {
@@ -62,7 +59,9 @@ const OptionsModal: React.FC<props> = ({ isModalOpen, setIsModalOpen }) => {
     }
   }, [error]);
 
-  const deleteChatHistory = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const deleteChatHistory = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     try {
       const { data } = await deleteChat();
     } catch (e) {
@@ -83,10 +82,16 @@ const OptionsModal: React.FC<props> = ({ isModalOpen, setIsModalOpen }) => {
     <>
       <div style={isModalOpen ? styles.container : { display: 'none' }}>
         <div style={styles.modalContainer}>
-          {error && (<p>ERROR DELETING CHAT HISTORY</p>)}
-          <Button variant={'contained'} onClick={deleteChatHistory}>Delete Chat History</Button>
-          <Button variant={'contained'} onClick={handleLogout}>Log out</Button>
-          <Button variant={'contained'} onClick={handleCloseModal}>Close</Button>
+          {error && <p>ERROR DELETING CHAT HISTORY</p>}
+          <Button variant={'contained'} onClick={deleteChatHistory}>
+            Delete Chat History
+          </Button>
+          <Button variant={'contained'} onClick={handleLogout}>
+            Log out
+          </Button>
+          <Button variant={'contained'} onClick={handleCloseModal}>
+            Close
+          </Button>
         </div>
       </div>
     </>

@@ -61,16 +61,26 @@ export const MessengerPage: React.FC = () => {
       });
     }
   }, [messages]);
-
+  let refreshKey: number = 0;
   return (
     <Container maxWidth="md" style={styles.container}>
       <BackgroundMedia />
       <Paper style={styles.conversationContainer}>
         {error && <p>Error getting conversation history</p>}
         <Box style={styles.messagesContainer}>
-          {messages.map(({ message, isUser }: IMessage, index: number) => (
-            <Message isUser={isUser} message={message} key={index} />
-          ))}
+          {messages.map(({ message, isUser }: IMessage, index: number) => {
+            return (
+              <Message
+                isUser={isUser}
+                message={message}
+                key={index}
+                index={index}
+                messages={messages}
+                setMessages={setMessages}
+                sendMessage={sendMessage}
+              />
+            );
+          })}
 
           {loading && <Message loading={true} />}
           <Box ref={bottomOfChat} />

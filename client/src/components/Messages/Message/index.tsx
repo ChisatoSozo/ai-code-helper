@@ -1,20 +1,28 @@
-import { Autorenew, Refresh } from '@mui/icons-material';
+import { useMutation } from '@apollo/client';
+import { Autorenew } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
-import React, { useRef } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
+import { IMessage } from '../../../types';
+import { DELETE_SOME_MESSAGES, GET_CONVERSATION } from '../../../utils';
 
 interface props {
   isUser?: boolean;
   message?: string | undefined | null;
   loading?: boolean;
-  key?: number | undefined;
+  index?: number;
+  messages?: IMessage[];
+  sendMessage?: (message: string) => Promise<void>;
+  setMessages?: (messages: IMessage[]) => void;
 }
 
 const Message: React.FC<props> = ({
   isUser = false,
   message = '',
   loading = false,
-  key = undefined,
+  index = 1,
+  messages = [],
+  setMessages = () => {},
+  sendMessage = () => Promise.resolve(),
 }) => {
   // const loadingRef = useRef<null | HTMLDivElement>(null)
   // useEffect((): void => {
@@ -86,7 +94,20 @@ const Message: React.FC<props> = ({
     },
   };
 
-  const refresh = () => {};
+  const [deleteSomeMessages, { error: deleteSomeMessagesError }] = useMutation(
+    DELETE_SOME_MESSAGES,
+    {
+      refetchQueries: [GET_CONVERSATION],
+    }
+  );
+
+  const refresh = () => {
+    const input: string = messages[index - 1].message || '';
+    deleteSomeMessages({
+      variables: { numberOfMessagesToDelete: messages.length - index + 1 },
+    });
+    sendMessage(input);
+  };
 
   if (loading) {
     return (
