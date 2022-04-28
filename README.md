@@ -68,5 +68,5 @@ Begin your learning today! Talk to SaraBot!
 Meet the Devs: 
 
 * Travis: Front End [GitHub](https://github.com/Travis-Anderson023)
-* Ryan: Back End [GitHub](https://github.com/moonryc)
+* Ryan: Front End & Back End [GitHub](https://github.com/moonryc)
 * Joe: Back End [GitHub](https://github.com/jollypong)
