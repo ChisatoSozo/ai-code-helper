@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { Autorenew } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import React from 'react';
@@ -11,7 +11,7 @@ interface props {
   loading?: boolean;
   index?: number;
   messages?: IMessage[];
-  sendMessage?: (message: string) => Promise<void>;
+  sendMessage?: (message: string, isResending?: boolean) => Promise<void>;
   setMessages?: (messages: IMessage[]) => void;
 }
 
@@ -94,22 +94,20 @@ const Message: React.FC<props> = ({
     },
   };
 
-  const [deleteSomeMessages, { error: deleteSomeMessagesError }] = useMutation(
-    DELETE_SOME_MESSAGES,
-    {
+  const [deleteSomeMessages, { loading: deleteSomeMessagesLoading }] =
+    useMutation(DELETE_SOME_MESSAGES, {
       refetchQueries: [GET_CONVERSATION],
-    }
-  );
+    });
 
-  const refresh = () => {
+  const refresh = async () => {
     const input: string = messages[index - 1].message || '';
-    deleteSomeMessages({
+    await deleteSomeMessages({
       variables: { numberOfMessagesToDelete: messages.length - index + 1 },
     });
-    sendMessage(input);
+    await sendMessage(input, true);
   };
 
-  if (loading) {
+  if (loading || deleteSomeMessagesLoading) {
     return (
       <Box
         sx={{

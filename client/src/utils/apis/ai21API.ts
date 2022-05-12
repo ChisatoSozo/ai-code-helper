@@ -1,4 +1,5 @@
-export const ai21API = async (prompt: string) => {
+export const ai21API = async (prompt: string, isResending: boolean) => {
+  console.log(prompt);
   try {
     const response = await fetch(
       `https://api.ai21.com/studio/v1/j1-${process.env.REACT_APP_AI_SIZE}/complete`,
@@ -14,7 +15,7 @@ export const ai21API = async (prompt: string) => {
           maxTokens: 100,
           stopSequences: [`"`],
           topKReturn: 0,
-          temperature: 0.7,
+          temperature: isResending ? 0.7 : 0.7,
         }),
       }
     );
